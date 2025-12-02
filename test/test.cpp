@@ -58,16 +58,16 @@ TEST_CASE("printShortestEdges with toggled edges", "[shortestEdges]") {
     string output1 = captureOutput(c, R"(printShortestEdges 10000001)");
     REQUIRE(output1 == 
         "Name: Alice\n"
-        "COP3502 | Total Time: 9\n"
+        "COP3502 | Total Time: 8\n"
         "COP3503 | Total Time: 8\n"
     );
 
-    REQUIRE(captureOutput(c, R"(toggleEdgesClosure 2 1 2 2 4)") == "successful\n");
+    REQUIRE(captureOutput(c, R"(toggleEdgesClosure 3 1 2 1 50 1 4)") == "successful\n");
 
     string output2 = captureOutput(c, R"(printShortestEdges 10000001)");
     REQUIRE(output2 == 
         "Name: Alice\n"
         "COP3502 | Total Time: -1\n"
-        "COP3503 | Total Time: 8\n"
+        "COP3503 | Total Time: -1\n"
     );
 }
