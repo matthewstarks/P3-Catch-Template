@@ -313,11 +313,15 @@ bool CampusCompass::HandleToggleEdges(const vector<string>& commands) {
         string idStr = commands[2 + i];
         int id = stoi(idStr);
 
-        for (auto& edge : graph[id]) {
-            if (edge.open) {
-                edge.open = false;
-            } else {
-                edge.open = true;
+        for (int i = 0; i < N; i++) {
+            int u = stoi(commands[2 + i*2]);
+            int v = stoi(commands[3 + i*2]);
+
+            for (auto& edge : graph[u]) {
+                if (edge.to == v) edge.open = !edge.open;
+            }
+            for (auto& edge : graph[v]) {
+                if (edge.to == u) edge.open = !edge.open;
             }
         }
     }
@@ -421,6 +425,8 @@ pair<unordered_map<int, int>, unordered_map<int, int>> dijkstra(int start, const
         int node = top.second;
 
         if (d > dist[node]) continue;
+
+        if (graph.find(node) == graph.end()) continue;
 
         for (auto& edge : graph.at(node)) {
             if (!edge.open) continue;
