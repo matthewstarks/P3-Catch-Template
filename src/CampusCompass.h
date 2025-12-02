@@ -57,6 +57,7 @@ private:
     bool HandlePrintShortestEdges(const std::vector<std::string>& commands);
     int MSTCost(const std::unordered_set<int>& nodes);
     bool HandlePrintStudentZone(const std::vector<std::string>& commands);
+    int ConvertToMinutes(const std::string& timeStr);
     bool HandleVerifyScheduleID(const std::vector<std::string>& commands);
     std::vector<std::string> Commands(const std::string& command);
     bool IsValidUFID(const std::string& id);
