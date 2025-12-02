@@ -26,13 +26,18 @@ struct Student {
     std::vector<std::string> classes;
 };
 
+struct DijkstraHelper {
+    std::unordered_map<int, int> dist;
+    std::unordered_map<int, int> prev;
+};
+
 class CampusCompass {
 private:
     std::unordered_map<int, std::vector<Edge>> graph; // adjacency list
     std::unordered_map<std::string, ClassInfo> classes;  
-    std::unordered_map<int, std::string> idToName;     // locationID name
+    std::unordered_map<int, std::string> idToName; // locationID name
 
-    std::unordered_map<std::string, Student> students; // UFID student
+    std::unordered_map<std::string, Student> students; // key: UFID value: student
 
 private:
     // CSV helpers
@@ -47,11 +52,12 @@ private:
     bool HandleRemoveClassGlobal(const std::vector<std::string>& commands);
     bool HandleToggleEdges(const std::vector<std::string>& commands);
     bool HandleCheckEdgeStatus(const std::vector<std::string>& commands);
+    bool DFS(int current, int target, std::unordered_set<int>& visited);
     bool HandleIsConnected(const std::vector<std::string>& commands);
     bool HandlePrintShortestEdges(const std::vector<std::string>& commands);
+    int MSTCost(const std::unordered_set<int>& nodes);
     bool HandlePrintStudentZone(const std::vector<std::string>& commands);
-
-    // Utility helpers
+    bool HandleVerifyScheduleID(const std::vector<std::string>& commands);
     std::vector<std::string> Commands(const std::string& command);
     bool IsValidUFID(const std::string& id);
     bool IsValidName(const std::string& name);
