@@ -229,6 +229,10 @@ bool CampusCompass::HandleDropClass(const vector<string>& commands) {
     }
     student.classes.erase(c);
 
+    if (student.classes.empty()) {
+        students.erase(ufid);
+    }
+
     cout << "successful" << endl;
     return true;
 }
@@ -264,7 +268,7 @@ bool CampusCompass::HandleReplaceClass(const vector<string>& commands) {
 
 //remove a class from all students
 bool CampusCompass::HandleRemoveClassGlobal(const vector<string>& commands) {
-    if (commands.size() < 2 || commands.size() > 2) {
+    if (commands.size() != 2) {
         cout << "unsuccessful" << endl;
         return false;
     }
@@ -277,8 +281,8 @@ bool CampusCompass::HandleRemoveClassGlobal(const vector<string>& commands) {
 
     int count = 0;
 
-    for (auto& pair : students) {
-        Student& student = pair.second;
+    for (auto it = students.begin(); it != students.end(); ) {
+        Student& student = it->second;
 
         if (find(student.classes.begin(), student.classes.end(), classCode) != student.classes.end()) {
             student.classes.erase(
@@ -287,7 +291,14 @@ bool CampusCompass::HandleRemoveClassGlobal(const vector<string>& commands) {
             );
 
             count++;
+
+            if (student.classes.empty()) {
+                it = students.erase(it);
+                continue;
+            }
         }
+
+        ++it;
     }
 
     cout << count << endl;
@@ -301,27 +312,27 @@ bool CampusCompass::HandleToggleEdges(const vector<string>& commands) {
         return false;
     }
 
-    string Nstr = commands[1];
-    int N = stoi(Nstr);
-
+    int N = stoi(commands[1]);
     if (commands.size() != N * 2 + 2) {
         cout << "unsuccessful" << endl;
         return false;
     }
 
-    for (int i = 0; i < N*2; i++) {
-        string idStr = commands[2 + i];
-        int id = stoi(idStr);
+    for (int i = 0; i < N; i++) {
+        int u = stoi(commands[2 + i * 2]);
+        int v = stoi(commands[3 + i * 2]);
 
-        for (int i = 0; i < N; i++) {
-            int u = stoi(commands[2 + i*2]);
-            int v = stoi(commands[3 + i*2]);
-
-            for (auto& edge : graph[u]) {
-                if (edge.to == v) edge.open = !edge.open;
+        for (auto& edge : graph[u]) {
+            if (edge.to == v) {
+                edge.open = !edge.open;
+                break;
             }
-            for (auto& edge : graph[v]) {
-                if (edge.to == u) edge.open = !edge.open;
+        }
+
+        for (auto& edge : graph[v]) {
+            if (edge.to == u) {
+                edge.open = !edge.open;
+                break;
             }
         }
     }

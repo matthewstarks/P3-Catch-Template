@@ -19,8 +19,8 @@
 //     c.ParseCSV("edges.csv", "classes.csv");
 
 //     REQUIRE(captureOutput(c, R"(insert "A11y" 45679999 1 1 COP3530)") == "unsuccessful\n");
-//     REQUIRE(captureOutput(c, R"(insert "Alice" 1234 1 1 COP3530)") == "unsuccessful\n");
-//     REQUIRE(captureOutput(c, R"(insert "Alice" 10000001 1 1 COP35X0)") == "unsuccessful\n");
+//     REQUIRE(captureOutput(c, R"(insert "Matthew" 1234 1 1 COP3530)") == "unsuccessful\n");
+//     REQUIRE(captureOutput(c, R"(insert "Matthew" 10000001 1 1 COP35X0)") == "unsuccessful\n");
 //     REQUIRE(captureOutput(c, R"(remove 99999999)") == "unsuccessful\n");
 
 //     c.ParseCommand(R"(insert "Bob" 10000002 1 1 COP3502)");
